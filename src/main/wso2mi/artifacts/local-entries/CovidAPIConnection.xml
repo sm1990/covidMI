@@ -1,0 +1,9 @@
+<localEntry key="CovidAPIConnection" xmlns="http://ws.apache.org/ns/synapse">
+    <http.init>
+        <connectionType>https</connectionType>
+        <baseUrl>https://disease.sh</baseUrl>
+        <timeoutDuration>30</timeoutDuration>
+        <timeoutAction>Never</timeoutAction>
+        <name>CovidAPIConnection</name>
+    </http.init>
+</localEntry>
