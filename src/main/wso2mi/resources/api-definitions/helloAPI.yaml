@@ -1,12 +1,12 @@
 openapi: 3.0.1
 info:
-  title: CovidStatusAPI
-  description: API Definition of CovidStatusAPI
+  title: helloAPI
+  description: API Definition of helloAPI
   version: 1.0.0
 servers:
-- url: http://localhost:8290/covid
+- url: http://localhost:8290/hello
 paths:
-  /status:
+  /:
     get:
       responses:
         default:

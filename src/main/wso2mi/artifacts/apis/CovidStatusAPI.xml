@@ -4,32 +4,8 @@
             <log category="INFO">
                 <message>Fetching global COVID-19 status</message>
             </log>
-            <http.get configKey="CovidAPIConnection">
-                <relativePath>/v3/covid-19/all</relativePath>
-                <headers>[]</headers>
-                <forceScAccepted>false</forceScAccepted>
-                <disableChunking>false</disableChunking>
-                <forceHttp10>false</forceHttp10>
-                <noKeepAlive>false</noKeepAlive>
-                <forcePostPutNobody>false</forcePostPutNobody>
-                <forceHttpContentLength>false</forceHttpContentLength>
-            </http.get>
-            <payloadFactory media-type="json">
-                <format>
-                    {
-                        "globalStats": {
-                            "totalCases": ${payload.cases},
-                            "totalDeaths": ${payload.deaths},
-                            "totalRecovered": ${payload.recovered},
-                            "activeCases": ${payload.active},
-                            "criticalCases": ${payload.critical},
-                            "todayCases": ${payload.todayCases},
-                            "todayDeaths": ${payload.todayDeaths},
-                            "todayRecovered": ${payload.todayRecovered}
-                        },
-                        "lastUpdated": ${payload.updated}
-                    }
-                </format>
+            <payloadFactory media-type="text" template-type="default">
+                <format>Covid response</format>
             </payloadFactory>
             <respond/>
         </inSequence>
@@ -40,68 +16,8 @@
             <payloadFactory media-type="json">
                 <format>
                     {
-                        "error": "Failed to fetch COVID-19 data",
-                        "message": "Service temporarily unavailable"
-                    }
-                </format>
-            </payloadFactory>
-            <respond/>
-        </faultSequence>
-    </resource>
-    
-    <resource methods="GET" uri-template="/status/{country}">
-        <inSequence>
-            <variable name="countryName" expression="${params.pathParams.country}" type="STRING"/>
-            <log category="INFO">
-                <message>Fetching COVID-19 status for country: ${vars.countryName}</message>
-            </log>
-            <http.get configKey="CovidAPIConnection">
-                <relativePath>/v3/covid-19/countries/${vars.countryName}</relativePath>
-                <headers>[]</headers>
-                <forceScAccepted>false</forceScAccepted>
-                <disableChunking>false</disableChunking>
-                <forceHttp10>false</forceHttp10>
-                <noKeepAlive>false</noKeepAlive>
-                <forcePostPutNobody>false</forcePostPutNobody>
-                <forceHttpContentLength>false</forceHttpContentLength>
-            </http.get>
-            <payloadFactory media-type="json">
-                <format>
-                    {
-                        "country": "${payload.country}",
-                        "countryInfo": {
-                            "flag": "${payload.countryInfo.flag}",
-                            "iso2": "${payload.countryInfo.iso2}",
-                            "iso3": "${payload.countryInfo.iso3}"
-                        },
-                        "stats": {
-                            "totalCases": ${payload.cases},
-                            "totalDeaths": ${payload.deaths},
-                            "totalRecovered": ${payload.recovered},
-                            "activeCases": ${payload.active},
-                            "criticalCases": ${payload.critical},
-                            "todayCases": ${payload.todayCases},
-                            "todayDeaths": ${payload.todayDeaths},
-                            "todayRecovered": ${payload.todayRecovered},
-                            "casesPerOneMillion": ${payload.casesPerOneMillion},
-                            "deathsPerOneMillion": ${payload.deathsPerOneMillion}
-                        },
-                        "lastUpdated": ${payload.updated}
-                    }
-                </format>
-            </payloadFactory>
-            <respond/>
-        </inSequence>
-        <faultSequence>
-            <log category="ERROR">
-                <message>Error occurred while fetching COVID-19 data for ${vars.countryName}: ${props.synapse.ERROR_MESSAGE}</message>
-            </log>
-            <payloadFactory media-type="json">
-                <format>
-                    {
-                        "error": "Failed to fetch COVID-19 data for country",
-                        "country": "${vars.countryName}",
-                        "message": "Country not found or service temporarily unavailable"
+                    "error": "Failed to fetch COVID-19 data",
+                    "message": "Service temporarily unavailable"
                     }
                 </format>
             </payloadFactory>
